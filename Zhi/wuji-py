@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# python3-with-wuji_sdk shim: wuji_sdk only exists inside the wuji:latest
+# container (needs glibc 2.39; this host is Ubuntu 20.04), so run python there.
+# --network host because the gloves are LAN Ethernet devices.
+# Used by teleop_panel.py (find_wuji_py) for glove scans, e.g.:
+#   wuji-py -c 'from wuji_sdk import SdkManager; ...'
+exec docker run --rm -i --network host "${WUJI_IMAGE:-wuji:latest}" python3 "$@"

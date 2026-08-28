@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.log
+# local virtualenvs (rebuild from requirements on a new machine)
+Zhi/.venv/
+Zhi/sharpamanus-venv/
+# vendor SDK clone (github.com/sharpa-robotics/sharpa-manus-sdk + local patches)
+Zhi/sharpa-manus-sdk/
+# recorded episode data (large, stays local)
+Zhi/episodes/

@@ -1,0 +1,383 @@
+{
+ "source": {
+  "sample": "experiments/08-14-2026/bottle",
+  "scene": "results/inpainting_bottle.gif / .mp4  (stage-4 composite)",
+  "built_by": "agents/scenekit/builders/bottle_task.py -> bottle_mug.build_world -> scenekit/builders/stage.build_stage(world='tabletop')",
+  "note": "same world with an EMPTY item list: no bottle, no mug, nothing on the table. Arm mounts, table and hands are bit-identical to the delivered run (rig origin, both arm roots, table pose and the first 68 qpos slots all match)."
+ },
+ "rig_frame": {
+  "origin": "midpoint of the two YAM base plates, ON the tabletop",
+  "x": "toward the RIGHT base",
+  "y": "into the work",
+  "z": "up",
+  "tabletop_z_m": 0.0,
+  "from_pipeline_world": {
+   "rotate_about_z_deg": -9.152582,
+   "then_translate_m": [
+    -0.0,
+    -0.0,
+    0.3623
+   ],
+   "comment": "the pipeline world is anchored to the source clip's camera and gravity, so its x/y are yawed; rig frame = that world rotated by this angle and lifted so the tabletop is z=0"
+  }
+ },
+ "arms": {
+  "model": "YAM 6-DOF (assets/yam)",
+  "count": 2,
+  "base_separation_m": 0.76,
+  "base_forward_m": 0.0,
+  "base_yaw_deg": 90.0,
+  "bases_rig": {
+   "right": {
+    "pos_m": [
+     0.38,
+     -0.0,
+     0.0
+    ],
+    "quat_wxyz": [
+     -0.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    "yaw_deg_about_z": 180.0
+   },
+   "left": {
+    "pos_m": [
+     -0.38,
+     0.0,
+     0.0
+    ],
+    "quat_wxyz": [
+     -0.0,
+     0.0,
+     0.0,
+     1.0
+    ],
+    "yaw_deg_about_z": 180.0
+   }
+  },
+  "joint_ranges_rad": {
+   "dof_joint1": [
+    -2.61799,
+    3.05433
+   ],
+   "dof_joint2": [
+    0.0,
+    3.14159
+   ],
+   "dof_joint3": [
+    0.0,
+    3.14159
+   ],
+   "dof_joint4": [
+    -1.5708,
+    1.5708
+   ],
+   "dof_joint5": [
+    -1.5708,
+    1.5708
+   ],
+   "dof_joint6": [
+    -2.0944,
+    2.0944
+   ]
+  },
+  "reach_m": 0.74,
+  "hand": {
+   "model": "sharpa 20-DOF (assets/sharpa)",
+   "attachment": "POSITION-ONLY weld, arm gripper flange <-> hand wrist body (equality/weld torquescale=0): the arm carries the hand's POSITION, never its orientation \u2014 the wrist 6-DOF joints do that.",
+   "wrist_dofs": [
+    "pos_x",
+    "pos_y",
+    "pos_z",
+    "rot_x",
+    "rot_y",
+    "rot_z"
+   ],
+   "wrist_euler": "intrinsic XYZ (Rx*Ry*Rz), world/rig axes"
+  }
+ },
+ "table": {
+  "type": "static box",
+  "centre_rig_m": [
+   -0.0,
+   0.775,
+   -0.02
+  ],
+  "half_extents_m": [
+   1.8,
+   1.075,
+   0.02
+  ],
+  "top_z_m": 0.0,
+  "extent_rig_m": {
+   "x": [
+    -1.8,
+    1.8
+   ],
+   "y": [
+    -0.3,
+    1.85
+   ]
+  },
+  "near_edge_y_rig_m": -0.3,
+  "rgba": [
+   0.263,
+   0.204,
+   0.142,
+   1.0
+  ]
+ },
+ "cameras": {
+  "lens": {
+   "width": 640,
+   "height": 480,
+   "focal_px": 870.0,
+   "fovy_deg": 30.844,
+   "h_above_table_m": 0.684,
+   "pitch_deg": 35.87,
+   "provenance": "fitted on this clip's own metric depth (experiments/08-14-2026/bottle/results/reset_fit.json); shared by every clip from the 640x480 photo bench. NOT EgoDex's 736.63 px, which reads ~18% long on this rig."
+  },
+  "bench_cam": {
+   "what": "the camera experiments/08-14-2026/bottle/results/inpainting_bottle.gif is rendered through",
+   "pos_rig_m": [
+    0.0,
+    -0.520951,
+    0.684
+   ],
+   "quat_wxyz": [
+    0.890490915,
+    0.455001022,
+    -0.0,
+    -0.0
+   ],
+   "look_at_rig_m": [
+    0.0,
+    0.425,
+    0.0
+   ],
+   "optical_axis": "along rig +y, pitched 35.87 deg down",
+   "how_it_was_chosen": "focal, height above the tabletop and pitch are the CLIP's own \u2014 those three fix the table plane's image geometry, so anything standing on the sim table lands on the real table's pixels. Only the camera's (x, y) ON that plane is free, and it is chosen, not recovered: y solved so the rig origin projects to 1.05*H (the two mounts at the very bottom of frame, arms entering from below), x searched for the aim that keeps the run centred."
+  },
+  "photo_bench_cam": {
+   "what": "the bench's own RECORDING camera as the reset places it \u2014 same lens, standing over the source run's camera ground point",
+   "pos_rig_m": [
+    0.02,
+    -0.394,
+    0.684
+   ],
+   "quat_wxyz": [
+    0.890490915,
+    0.455001022,
+    -0.0,
+    -0.0
+   ],
+   "note": "differs from bench_cam ONLY in where it stands on the table plane (127 mm nearer, 20 mm to the right)."
+  }
+ },
+ "home_pose": {
+  "what": "frame 0 of the delivered run (results/bottle_task_qpos.npz): both arms at all-zero joints, hands folded palms-up",
+  "keyframe": "home  (mj_resetDataKeyframe(model, data, 0))",
+  "arm_joints_rad": {
+   "right": [
+    4e-06,
+    0.000343,
+    -1.7e-05,
+    -0.000725,
+    1e-06,
+    -0.0
+   ],
+   "left": [
+    -1e-06,
+    0.000392,
+    -6e-06,
+    -0.000721,
+    -0.0,
+    -0.0
+   ]
+  },
+  "wrist_rig": {
+   "right": {
+    "pos_m": [
+     0.379999,
+     0.110619,
+     0.173385
+    ],
+    "euler_XYZ_rad": [
+     -1.575217,
+     -0.779815,
+     -3.072327
+    ]
+   },
+   "left": {
+    "pos_m": [
+     -0.380001,
+     0.110622,
+     0.173385
+    ],
+    "euler_XYZ_rad": [
+     -1.577214,
+     0.608621,
+     -0.097919
+    ]
+   }
+  },
+  "hand_height_above_table_mm": {
+   "right": 140.0,
+   "left": 139.0
+  },
+  "qpos": [
+   0.379998585,
+   0.110618708,
+   0.173385243,
+   -1.575216718,
+   -0.7798152,
+   -3.072326872,
+   0.53792499,
+   0.036681909,
+   -0.216012034,
+   0.125342996,
+   0.17102926,
+   -0.075688215,
+   0.080808818,
+   0.279851464,
+   0.189818759,
+   0.000216201,
+   0.08407866,
+   0.317502975,
+   0.262213537,
+   0.096981871,
+   -0.016432323,
+   0.321393622,
+   0.237497663,
+   0.057680151,
+   0.209184339,
+   -0.08298939,
+   0.213652385,
+   0.068400175,
+   3.705e-06,
+   0.00034251,
+   -1.6732e-05,
+   -0.000724905,
+   1.163e-06,
+   -1.71e-07,
+   -0.380000954,
+   0.110621721,
+   0.173385497,
+   -1.577214099,
+   0.60862081,
+   -0.097919337,
+   1.357731845,
+   0.022868399,
+   -0.502350535,
+   0.022780427,
+   0.474776528,
+   0.227102831,
+   9.7993e-05,
+   0.355771913,
+   0.386103712,
+   0.214089372,
+   9.6408e-05,
+   0.564173962,
+   0.530470631,
+   0.280259553,
+   9.6844e-05,
+   0.52128587,
+   0.446013894,
+   0.154832842,
+   0.308855418,
+   9.4657e-05,
+   0.462767782,
+   0.274788949,
+   -1.166e-06,
+   0.000391661,
+   -5.712e-06,
+   -0.000720695,
+   -3.8e-07,
+   -1.73e-07
+  ],
+  "qpos_joint_order": [
+   "robot_right_right_pos_x",
+   "robot_right_right_pos_y",
+   "robot_right_right_pos_z",
+   "robot_right_right_rot_x",
+   "robot_right_right_rot_y",
+   "robot_right_right_rot_z",
+   "robot_right_right_thumb_CMC_FE",
+   "robot_right_right_thumb_CMC_AA",
+   "robot_right_right_thumb_MCP_FE",
+   "robot_right_right_thumb_MCP_AA",
+   "robot_right_right_thumb_IP",
+   "robot_right_right_index_MCP_FE",
+   "robot_right_right_index_MCP_AA",
+   "robot_right_right_index_PIP",
+   "robot_right_right_index_DIP",
+   "robot_right_right_middle_MCP_FE",
+   "robot_right_right_middle_MCP_AA",
+   "robot_right_right_middle_PIP",
+   "robot_right_right_middle_DIP",
+   "robot_right_right_ring_MCP_FE",
+   "robot_right_right_ring_MCP_AA",
+   "robot_right_right_ring_PIP",
+   "robot_right_right_ring_DIP",
+   "robot_right_right_pinky_CMC",
+   "robot_right_right_pinky_MCP_FE",
+   "robot_right_right_pinky_MCP_AA",
+   "robot_right_right_pinky_PIP",
+   "robot_right_right_pinky_DIP",
+   "robot_right_arm_dof_joint1",
+   "robot_right_arm_dof_joint2",
+   "robot_right_arm_dof_joint3",
+   "robot_right_arm_dof_joint4",
+   "robot_right_arm_dof_joint5",
+   "robot_right_arm_dof_joint6",
+   "robot_left_left_pos_x",
+   "robot_left_left_pos_y",
+   "robot_left_left_pos_z",
+   "robot_left_left_rot_x",
+   "robot_left_left_rot_y",
+   "robot_left_left_rot_z",
+   "robot_left_left_thumb_CMC_FE",
+   "robot_left_left_thumb_CMC_AA",
+   "robot_left_left_thumb_MCP_FE",
+   "robot_left_left_thumb_MCP_AA",
+   "robot_left_left_thumb_IP",
+   "robot_left_left_index_MCP_FE",
+   "robot_left_left_index_MCP_AA",
+   "robot_left_left_index_PIP",
+   "robot_left_left_index_DIP",
+   "robot_left_left_middle_MCP_FE",
+   "robot_left_left_middle_MCP_AA",
+   "robot_left_left_middle_PIP",
+   "robot_left_left_middle_DIP",
+   "robot_left_left_ring_MCP_FE",
+   "robot_left_left_ring_MCP_AA",
+   "robot_left_left_ring_PIP",
+   "robot_left_left_ring_DIP",
+   "robot_left_left_pinky_CMC",
+   "robot_left_left_pinky_MCP_FE",
+   "robot_left_left_pinky_MCP_AA",
+   "robot_left_left_pinky_PIP",
+   "robot_left_left_pinky_DIP",
+   "robot_left_arm_dof_joint1",
+   "robot_left_arm_dof_joint2",
+   "robot_left_arm_dof_joint3",
+   "robot_left_arm_dof_joint4",
+   "robot_left_arm_dof_joint5",
+   "robot_left_arm_dof_joint6"
+  ]
+ },
+ "physics": {
+  "timestep_s": 0.00025,
+  "integrator": "implicitfast",
+  "gravity": [
+   0.0,
+   0.0,
+   -9.81
+  ],
+  "nq": 68,
+  "nu": 56,
+  "ngeom": 101
+ }
+}
